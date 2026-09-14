@@ -13,6 +13,11 @@ const MESSAGES = {
   'auth/popup-closed-by-user': 'Sign-in was cancelled.',
   'auth/cancelled-popup-request': 'Sign-in was cancelled.',
   'auth/popup-blocked': 'Your browser blocked the sign-in popup. Please allow popups and try again.',
+  // Configuration problems that only show up once deployed: Firebase trusts
+  // localhost out of the box, so neither of these can happen in local dev.
+  'auth/unauthorized-domain':
+    "This site's address isn't authorized for sign-in yet. Please contact support.",
+  'auth/operation-not-allowed': 'This sign-in method is not enabled. Please contact support.',
 }
 
 export function friendlyAuthError(error) {

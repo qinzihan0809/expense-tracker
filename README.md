@@ -38,6 +38,22 @@ before it touches the database, and rejects the request with `401` if it's
 missing or invalid. Every query is scoped to the verified uid; no endpoint
 accepts a user id from the client.
 
+### Deploying to a new domain
+
+Two things are easy to miss, because local development never hits either one:
+
+1. **Authorize the domain in Firebase.** Firebase trusts `localhost` out of the
+   box but nothing else. Add the deployed domain (e.g. `your-app.vercel.app`)
+   under Firebase Console → Authentication → Settings → Authorized domains, or
+   Google sign-in fails with `auth/unauthorized-domain`.
+2. **Keep the COOP header as-is.** `vercel.json` sets
+   `Cross-Origin-Opener-Policy: same-origin-allow-popups`. Firebase's
+   `signInWithPopup` watches `popup.closed` to tell when sign-in finished; under
+   the stricter `same-origin` value the browser cuts that link, logs
+   *"Cross-Origin-Opener-Policy policy would block the window.closed call"*, and
+   the popup never resolves. The Vite dev server sends no COOP header at all,
+   which is why this only appears once deployed.
+
 ### API
 
 | Method | Path                | Description          |
